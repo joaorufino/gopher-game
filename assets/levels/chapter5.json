@@ -1,0 +1,27 @@
+{
+  "chapter": 5,
+  "story": "Working here is not all flowers and unicorns...",
+  "platforms": [
+    { "body": { "position": { "x": 0, "y": 100 }, "size": { "x": 200, "y": 20 } } },
+    { "body": { "position": { "x": 250, "y": 200 }, "size": { "x": 200, "y": 20 } } },
+    { "body": { "position": { "x": 500, "y": 300 }, "size": { "x": 200, "y": 20 } } }
+  ],
+  "obstacles": [
+    {
+      "body": { "position": { "x": 150, "y": 180 }, "size": { "x": 50, "y": 50 } },
+      "type": "challenge",
+      "movement": { "type": "horizontal", "distance": 100, "speed": 50 }
+    }
+  ],
+  "items": [
+    {
+      "name": "Lesson Learned",
+      "body": {
+        "position": { "x": 400, "y": 280 },
+        "size": { "x": 50, "y": 50 }
+      }
+    }
+  ],
+  "background": "images/reflective_background.png"
+}
+

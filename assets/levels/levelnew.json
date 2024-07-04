@@ -1,0 +1,22 @@
+{
+  "platforms": [
+    { "body": { "position": { "x": -600, "y": 1800 }, "size": { "x": 2000, "y": 50 } } },
+    { "body": { "position": { "x": 100, "y": 350 }, "size": { "x": 200, "y": 20 } } },
+    { "body": { "position": { "x": 350, "y": 250 }, "size": { "x": 200, "y": 20 } } },
+    { "body": { "position": { "x": 600, "y": 150 }, "size": { "x": 200, "y": 20 } } }
+  ],
+  "obstacles": [
+    {
+      "body": { "position": { "x": 250, "y": 425 }, "size": { "x": 50, "y": 50 } },
+      "type": "docker_container",
+      "movement": { "type": "horizontal", "distance": 100, "speed": 50 }
+    },
+    {
+      "body": { "position": { "x": 500, "y": 225 }, "size": { "x": 50, "y": 50 } },
+      "type": "docker_image",
+      "movement": { "type": "vertical", "distance": 50, "speed": 30 }
+    }
+  ],
+  "background": "images/docker_background.png"
+}
+

@@ -1,0 +1,20 @@
+{
+  "actions": [
+    {
+      "name": "spawnContainer",
+      "description": "Spawns a container at the player's position",
+      "function": "spawnContainer"
+    },
+    {
+      "name": "moveContainer",
+      "description": "Allows the player to move containers",
+      "function": "moveContainer"
+    },
+    {
+      "name": "fly",
+      "description": "Allows the player to fly",
+      "function": "fly"
+    }
+  ]
+}
+

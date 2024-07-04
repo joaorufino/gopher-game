@@ -1,0 +1,27 @@
+[
+    {
+      "name": "Spawn Container",
+      "image": "path/to/image.png",
+      "icon": "path/to/icon.png",
+      "description": "Spawns a container at the player's position",
+      "cooldown": 5000000000, 
+      "actionName": "spawnContainer"
+    },
+    {
+      "name": "Move Container",
+      "image": "path/to/image.png",
+      "icon": "path/to/icon.png",
+      "description": "Allows the player to move containers",
+      "cooldown": 3000000000, 
+      "actionName": "moveContainer"
+    },
+    {
+      "name": "Fly",
+      "image": "path/to/image.png",
+      "icon": "path/to/icon.png",
+      "description": "Allows the player to fly",
+      "cooldown": 10000000000,
+      "actionName": "fly"
+    }
+]
+
