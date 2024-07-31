@@ -2,7 +2,7 @@
 package items
 
 import (
-	"github.com/joaorufino/cv-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
 )
 
 // Item represents a game item.

@@ -5,7 +5,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
-	"github.com/joaorufino/cv-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
 )
 
 // https://github.com/hajimehoshi/ebiten/blob/main/examples/touch/main.go

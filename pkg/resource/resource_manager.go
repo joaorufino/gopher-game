@@ -6,8 +6,8 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"github.com/joaorufino/cv-game/internal/interfaces"
-	"github.com/joaorufino/cv-game/pkg/gameAudio"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/pkg/gameAudio"
 )
 
 // ResourceManagerImpl manages game resources.

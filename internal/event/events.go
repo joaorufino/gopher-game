@@ -4,7 +4,7 @@ import (
 	"container/heap"
 	"sync"
 
-	"github.com/joaorufino/cv-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
 )
 
 // EventManager manages event registration and dispatching with priority and async handling.

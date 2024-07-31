@@ -5,16 +5,16 @@ import (
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/joaorufino/cv-game/internal/interfaces"
-	"github.com/joaorufino/cv-game/pkg/animation"
-	"github.com/joaorufino/cv-game/pkg/particle"
-	"github.com/joaorufino/cv-game/pkg/physics"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/pkg/animation"
+	"github.com/joaorufino/gopher-game/pkg/particle"
+	"github.com/joaorufino/gopher-game/pkg/physics"
 )
 
 // Pet represents the pet character that follows the player.
 type Pet struct {
-	Position            interfaces.Point
-	velocity            interfaces.Point
+	Position            interfaces.Vector2D
+	velocity            interfaces.Vector2D
 	animations          map[string]*animation.Animation
 	currentAnimation    string
 	lastAnimationUpdate time.Time
@@ -45,8 +45,8 @@ func NewPet(startX, startY float64, resourceManager interfaces.ResourceManager, 
 	size.Y = size.Y * config.ImageScale
 
 	pet := &Pet{
-		Position:            interfaces.Point{X: startX, Y: startY},
-		velocity:            interfaces.Point{X: 0, Y: 0},
+		Position:            interfaces.Vector2D{X: startX, Y: startY},
+		velocity:            interfaces.Vector2D{X: 0, Y: 0},
 		animations:          animations,
 		currentAnimation:    "idle",
 		lastAnimationUpdate: time.Now(),
@@ -55,7 +55,7 @@ func NewPet(startX, startY float64, resourceManager interfaces.ResourceManager, 
 		resourceManager:     resourceManager,
 		config:              config,
 		player:              player,
-		RigidBody:           physics.NewRigidBody(interfaces.Point{X: startX, Y: startY}, size, 500, false, "pet"),
+		RigidBody:           physics.NewRigidBody(interfaces.Vector2D{X: startX, Y: startY}, size, 500, false, "pet"),
 	}
 	physicsEngine.AddRigidBody(pet.RigidBody)
 	return pet
@@ -121,11 +121,11 @@ func (p *Pet) Draw(screen *ebiten.Image, cam interfaces.Camera) error {
 	return nil
 }
 
-func (p *Pet) GetPosition() interfaces.Point {
+func (p *Pet) GetPosition() interfaces.Vector2D {
 	return p.RigidBody.GetPosition()
 }
 
-func (p *Pet) SetPosition(po interfaces.Point) {
+func (p *Pet) SetPosition(po interfaces.Vector2D) {
 	p.Position = po
 }
 

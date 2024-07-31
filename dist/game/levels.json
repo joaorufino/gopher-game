@@ -1,0 +1,34 @@
+{
+    "startingLevel": "Basic Skills",
+    "levels": [
+        {
+            "name": "Basic Skills",
+            "description": "Learn the basic skills of software engineering.",
+            "abilities": ["walk", "jump"]
+        },
+        {
+            "name": "Research Phase",
+            "description": "Engage in research and learn cloud concepts.",
+            "abilities": ["spawn_containers", "push_containers"],
+            "milestone": "Instituto de Telecomunicações"
+        },
+        {
+            "name": "Corporate Experience",
+            "description": "Lead projects and improve infrastructure.",
+            "abilities": ["stack_containers"],
+            "milestone": "Bosch"
+        },
+        {
+            "name": "Startup Phase",
+            "description": "Transition to a meaningful career in healthcare.",
+            "abilities": ["start_flying", "see_invisible_threats"],
+            "milestone": "ARTIDIS"
+        },
+        {
+            "name": "Ultimate Level",
+            "description": "Achieve the highest level of expertise and leadership.",
+            "abilities": ["super_sayan"],
+            "milestone": "ISO27001 Certification"
+        }
+    ]
+}

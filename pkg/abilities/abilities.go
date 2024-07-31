@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/joaorufino/cv-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
 )
 
 // Ability represents a special power or skill that can be used in the game.

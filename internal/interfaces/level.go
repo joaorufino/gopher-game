@@ -7,7 +7,7 @@ type LevelGenerator interface {
 
 // Level represents a game level.
 type Level interface {
-	GetStartPoint() Point
-	GetEndPoint() Point
+	GetStartVector2D() Vector2D
+	GetEndVector2D() Vector2D
 	GetEnemies() []AIAgent
 }

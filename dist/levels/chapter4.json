@@ -1,0 +1,27 @@
+{
+  "chapter": 4,
+  "story": "The opportunity to go to ARTIDIS came when I least expected...",
+  "platforms": [
+    { "body": { "position": { "x": 0, "y": 100 }, "size": { "x": 200, "y": 20 } } },
+    { "body": { "position": { "x": 250, "y": 200 }, "size": { "x": 200, "y": 20 } } },
+    { "body": { "position": { "x": 500, "y": 300 }, "size": { "x": 200, "y": 20 } } }
+  ],
+  "obstacles": [
+    {
+      "body": { "position": { "x": 150, "y": 180 }, "size": { "x": 50, "y": 50 } },
+      "type": "ai_tool",
+      "movement": { "type": "horizontal", "distance": 100, "speed": 50 }
+    }
+  ],
+  "items": [
+    {
+      "name": "Medical Device",
+      "body": {
+        "position": { "x": 400, "y": 280 },
+        "size": { "x": 50, "y": 50 }
+      }
+    }
+  ],
+  "background": "images/medical_lab_background.png"
+}
+

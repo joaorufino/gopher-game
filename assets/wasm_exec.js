@@ -232,7 +232,7 @@
 						this.exit(code);
 					},
 
-					// func wasmWrite(fd uintptr, p unsafe.Pointer, n int32)
+					// func wasmWrite(fd uintptr, p unsafe.Vector2Der, n int32)
 					"runtime.wasmWrite": (sp) => {
 						sp >>>= 0;
 						const fd = getInt64(sp + 8);

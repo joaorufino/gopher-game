@@ -5,10 +5,10 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/joaorufino/cv-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
 )
 
-func LoadAnimations(resourceManager interfaces.ResourceManager, basePath string, frameCounts map[string]int) (map[string]*Animation, interfaces.Point) {
+func LoadAnimations(resourceManager interfaces.ResourceManager, basePath string, frameCounts map[string]int) (map[string]*Animation, interfaces.Vector2D) {
 	animations := make(map[string]*Animation)
 	var frames []*ebiten.Image
 
@@ -21,7 +21,7 @@ func LoadAnimations(resourceManager interfaces.ResourceManager, basePath string,
 		})
 
 	}
-	size := interfaces.Point{}
+	size := interfaces.Vector2D{}
 	if len(frames) != 0 {
 		// TODO: we are hoping that all images have the same size
 		width, height := frames[0].Size()

@@ -18,16 +18,16 @@ type PhysicsEngine interface {
 // RigidBody represents a physical object in the game.
 type RigidBody interface {
 	// GetPosition returns the position of the rigid body.
-	GetPosition() Point
+	GetPosition() Vector2D
 	// SetPosition sets the position of the rigid body.
-	SetPosition(position Point)
+	SetPosition(position Vector2D)
 	// GetVelocity returns the velocity of the rigid body.
-	GetVelocity() Point
+	GetVelocity() Vector2D
 	// SetVelocity sets the velocity of the rigid body.
-	SetVelocity(velocity Point)
+	SetVelocity(velocity Vector2D)
 	// GetSize returns the size of the rigid body.
-	GetSize() Point
-	SetSize(size Point)
+	GetSize() Vector2D
+	SetSize(size Vector2D)
 	GetIsStatic() bool
 	SetPushable(bool)
 	GetPushable() bool

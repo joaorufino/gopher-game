@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/joaorufino/cv-game/internal/interfaces"
-	"github.com/joaorufino/cv-game/internal/utils"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/utils"
 )
 
 // AbilitiesManagerImpl implements the AbilitiesManager interface.

@@ -6,20 +6,20 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"github.com/joaorufino/cv-game/internal/event"
-	"github.com/joaorufino/cv-game/internal/interfaces"
-	"github.com/joaorufino/cv-game/pkg/abilities"
-	"github.com/joaorufino/cv-game/pkg/actions"
-	"github.com/joaorufino/cv-game/pkg/camera"
-	"github.com/joaorufino/cv-game/pkg/gameAudio"
-	"github.com/joaorufino/cv-game/pkg/gameMap"
-	"github.com/joaorufino/cv-game/pkg/input"
-	"github.com/joaorufino/cv-game/pkg/items"
-	"github.com/joaorufino/cv-game/pkg/particle"
-	"github.com/joaorufino/cv-game/pkg/physics"
-	"github.com/joaorufino/cv-game/pkg/player"
-	"github.com/joaorufino/cv-game/pkg/resource"
-	"github.com/joaorufino/cv-game/pkg/settings"
+	"github.com/joaorufino/gopher-game/internal/event"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/pkg/abilities"
+	"github.com/joaorufino/gopher-game/pkg/actions"
+	"github.com/joaorufino/gopher-game/pkg/camera"
+	"github.com/joaorufino/gopher-game/pkg/gameAudio"
+	"github.com/joaorufino/gopher-game/pkg/gameMap"
+	"github.com/joaorufino/gopher-game/pkg/input"
+	"github.com/joaorufino/gopher-game/pkg/items"
+	"github.com/joaorufino/gopher-game/pkg/particle"
+	"github.com/joaorufino/gopher-game/pkg/physics"
+	"github.com/joaorufino/gopher-game/pkg/player"
+	"github.com/joaorufino/gopher-game/pkg/resource"
+	"github.com/joaorufino/gopher-game/pkg/settings"
 	"go.uber.org/zap"
 )
 
@@ -58,12 +58,12 @@ func provideEventManager() interfaces.EventManager {
 
 // Provide the PhysicsEngine implementation
 func providePhysicsEngine(eventManager interfaces.EventManager) interfaces.PhysicsEngine {
-	return physics.NewPhysicsEngine(eventManager, interfaces.Point{X: 0, Y: 9.8}, 3000)
+	return physics.NewPhysicsEngine(eventManager, interfaces.Vector2D{X: 0, Y: 9.8}, 3000)
 }
 
 // Provide the GameMap implementation
-func provideGameMap(physicsEngine interfaces.PhysicsEngine, eventManager interfaces.EventManager, resourceManager interfaces.ResourceManager) (interfaces.Map, error) {
-	return gameMap.NewMap("levels/level2.json", eventManager, resourceManager, physicsEngine)
+func provideGameMap(physicsEngine interfaces.PhysicsEngine, eventManager interfaces.EventManager, resourceManager interfaces.ResourceManager, platformGenerator *gameMap.PlatformGenerator) (interfaces.Map, error) {
+	return gameMap.NewMap(eventManager, resourceManager, physicsEngine, platformGenerator), nil
 }
 
 // Provide the Camera implementation
@@ -101,7 +101,7 @@ func provideScreenDimensions(settings interfaces.Settings) (int, int) {
 func providePlayer(resourceManager interfaces.ResourceManager, inputHandler interfaces.InputHandler, config *player.Configuration, engine interfaces.PhysicsEngine, events interfaces.EventManager) interfaces.Player {
 	startX := 200.0
 	startY := 200.0
-	return player.NewPlayer(startX, startY, resourceManager, config, engine, events)
+	return player.NewPlayer(startX, startY, resourceManager, config, engine, events, 800)
 }
 
 // Provide screen dimensions
@@ -144,4 +144,17 @@ func provideAbilitiesManager(eventManager interfaces.EventManager) interfaces.Ab
 // Provide the ResourceManager implementation
 func provideResourceManager(itemManager interfaces.ItemManager) interfaces.ResourceManager {
 	return resource.NewResourceManager(itemManager)
+}
+
+// Provide the PlatformGenerator implementation
+func providePlatformGenerator(config *player.Configuration, physicsEngine interfaces.PhysicsEngine) *gameMap.PlatformGenerator {
+	platformGenConfig := gameMap.PlatformGeneratorConfig{
+		MinPlatformDistance: 50,
+		MaxPlatformDistance: 150,
+		PlatformWidth:       100,
+		PlatformHeight:      20,
+		ScreenWidth:         float64(config.ScreenWidth),
+		ScreenHeight:        float64(config.ScreenHeight),
+	}
+	return gameMap.NewPlatformGenerator(platformGenConfig, physicsEngine)
 }

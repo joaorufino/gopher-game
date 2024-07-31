@@ -1,0 +1,77 @@
+[
+    {
+      "name": "Prometheus Fire Staff",
+      "image": "images/player/prometheus",
+      "icon": "images/icons/tn_prometheus_icon.png",
+      "description": "A staff imbued with the power of Prometheus, capable of monitoring and unleashing fiery attacks.",
+      "appearance": {
+        "type": "staff",
+        "color": "blue",
+        "material": "obsidian"
+      },
+      "abilities": ["Flame Burst", "Health Monitor", "Heat Shield"],
+      "version": 1
+    },
+    {
+      "name": "Docker Captain Hat",
+      "image": "images/player/docker",
+      "icon": "images/icons/tn_docker_icon.png",
+      "description": "A captain’s hat with the Docker logo, granting containerization powers.",
+      "appearance": {
+        "type": "hat",
+        "color": "blue"
+      },
+      "abilities": ["Container Summon", "Port Forwarding", "Swarm Command"],
+      "version": 1
+    },
+    {
+      "name": "Kubernetes Shield",
+      "image": "images/player/kubernetes",
+      "icon": "images/icons/tn_kubernetes_icon.png",
+      "description": "A shield with the power of Kubernetes, providing resilience and protection.",
+      "appearance": {
+        "type": "shield",
+        "pattern": "hexagonal",
+        "color": "blue and white"
+      },
+      "abilities": ["Pod Protection", "Cluster Resilience", "Node Strike"],
+      "version": 1
+    },
+    {
+      "name": "ArgoCD Pet",
+      "image": "images/player/argocd",
+      "icon": "images/icons/tn_argocd_icon.png",
+      "description": "A friendly robotic companion that aids in continuous deployment.",
+      "appearance": {
+        "type": "robotic pet",
+        "color": "blue"
+      },
+      "abilities": ["Continuous Deployment", "Sync Assistance", "Repository Guardian"],
+      "version": 1
+    },
+    {
+      "name": "AWS Cloud",
+      "image": "images/player/cloud",
+      "icon": "images/icons/tn_cloud_icon.png",
+      "description": "A fluffy, golden cloud that provides scalable power.",
+      "appearance": {
+        "type": "cloud",
+        "color": "golden"
+      },
+      "abilities": ["Cloud Ride", "Scalability Burst", "Storage Vault"],
+      "version": 1
+    },
+    {
+      "name": "ISO27001 Security Aura",
+      "image": "images/player/iso",
+      "icon": "images/icons/tn_iso_icon.png",
+      "description": "A shimmering aura that provides top-notch security.",
+      "appearance": {
+        "type": "aura",
+        "color": "translucent"
+      },
+      "abilities": ["Data Encryption", "Access Control", "Audit Shield"],
+      "version": 1
+    }
+]
+

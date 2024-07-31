@@ -4,7 +4,7 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/joaorufino/cv-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
 )
 
 // UpdatePosition updates the position based on velocity and delta time.
@@ -12,8 +12,8 @@ import (
 // velocity: The velocity vector.
 // deltaTime: The time elapsed since the last update in seconds.
 // Returns the updated position.
-func UpdatePosition(position, velocity interfaces.Point, deltaTime float64) interfaces.Point {
-	return interfaces.Point{
+func UpdatePosition(position, velocity interfaces.Vector2D, deltaTime float64) interfaces.Vector2D {
+	return interfaces.Vector2D{
 		X: position.X + velocity.X*deltaTime,
 		Y: position.Y + velocity.Y*deltaTime,
 	}
@@ -21,14 +21,14 @@ func UpdatePosition(position, velocity interfaces.Point, deltaTime float64) inte
 
 // Particle represents a single particle in a particle system.
 type Particle struct {
-	Position interfaces.Point
-	Velocity interfaces.Point
+	Position interfaces.Vector2D
+	Velocity interfaces.Vector2D
 	LifeTime float64
 	Image    *ebiten.Image
 }
 
 // NewParticle creates a new particle with the specified properties.
-func NewParticle(position, velocity interfaces.Point, lifeTime float64, size int, col color.Color) *Particle {
+func NewParticle(position, velocity interfaces.Vector2D, lifeTime float64, size int, col color.Color) *Particle {
 	img := ebiten.NewImage(size, size)
 	img.Fill(col)
 	return &Particle{
@@ -61,7 +61,7 @@ func NewParticleSystem(maxParticles int) *ParticleSystem {
 // lifeTime: The lifetime of the particle in seconds.
 // size: The size of the particle.
 // col: The color of the particle.
-func (ps *ParticleSystem) AddParticle(position, velocity interfaces.Point, lifeTime float64, size int, col color.Color) {
+func (ps *ParticleSystem) AddParticle(position, velocity interfaces.Vector2D, lifeTime float64, size int, col color.Color) {
 	if len(ps.particles) < ps.maxParticles {
 		ps.particles = append(ps.particles, NewParticle(position, velocity, lifeTime, size, col))
 	}

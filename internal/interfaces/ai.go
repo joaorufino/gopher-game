@@ -24,14 +24,14 @@ type AIAgent interface {
 	Update(deltaTime float64) error
 	// SetTarget sets the target for the AI agent.
 	// target: The target point the AI agent should move towards or interact with.
-	SetTarget(target Point)
+	SetTarget(target Vector2D)
 	// GetTarget returns the current target of the AI agent.
-	GetTarget() Point
+	GetTarget() Vector2D
 	// GetPosition returns the current position of the AI agent.
-	GetPosition() Point
+	GetPosition() Vector2D
 	// SetPosition sets the position of the AI agent.
 	// position: The new position for the AI agent.
-	SetPosition(position Point)
+	SetPosition(position Vector2D)
 	// OnEnter is called when the AI agent is activated or enters a new state.
 	OnEnter() error
 	// OnExit is called when the AI agent is deactivated or exits its current state.

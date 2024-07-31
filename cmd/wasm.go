@@ -9,7 +9,7 @@ import (
 	"syscall/js"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/joaorufino/cv-game/pkg/game"
+	"github.com/joaorufino/gopher-game/pkg/game"
 	"go.uber.org/fx"
 
 	_ "net/http/pprof"
@@ -21,6 +21,7 @@ func main() {
 
 	app := fx.New(
 		fx.Provide(
+			providePlatformGenerator,
 			provideConfiguration,
 			provideResourceManager,
 			provideInputHandler,

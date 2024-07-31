@@ -1,0 +1,27 @@
+{
+  "chapter": 2,
+  "story": "I finished my degree and started doing research in Instituto de Telecomunicações...",
+  "platforms": [
+    { "body": { "position": { "x": 0, "y": 100 }, "size": { "x": 200, "y": 20 } } },
+    { "body": { "position": { "x": 250, "y": 200 }, "size": { "x": 200, "y": 20 } } },
+    { "body": { "position": { "x": 500, "y": 300 }, "size": { "x": 200, "y": 20 } } }
+  ],
+  "obstacles": [
+    {
+      "body": { "position": { "x": 150, "y": 180 }, "size": { "x": 50, "y": 50 } },
+      "type": "research_paper",
+      "movement": { "type": "horizontal", "distance": 100, "speed": 50 }
+    }
+  ],
+  "items": [
+    {
+      "name": "Degree Certificate",
+      "body": {
+        "position": { "x": 400, "y": 280 },
+        "size": { "x": 50, "y": 50 }
+      }
+    }
+  ],
+  "background": "images/university_background.png"
+}
+

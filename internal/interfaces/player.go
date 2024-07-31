@@ -6,7 +6,7 @@ import "github.com/hajimehoshi/ebiten/v2"
 type Player interface {
 	Update(deltaTime float64) error
 	Draw(screen *ebiten.Image, camera Camera) error
-	GetPosition() Point
-	SetPosition(position Point)
+	GetPosition() Vector2D
+	SetPosition(position Vector2D)
 	EquipItem(item Item)
 }

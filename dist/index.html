@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CV Game</title>
+    <script src="wasm_exec.js"></script>
+    <script>
+        async function loadWasm() {
+            const go = new Go();
+            const result = await WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject);
+            go.run(result.instance);
+        }
+
+        async function fetchData(path, callback) {
+            try {
+                const response = await fetch(path);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.text();
+                callback(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        window.fetchData = fetchData; // Make fetchData globally accessible
+
+        loadWasm();
+    </script>
+</head>
+<body>
+</body>
+</html>
+

@@ -4,7 +4,7 @@ GO_BUILD=$(GO_CMD) build
 GO_MOD=$(GO_CMD) mod
 GO_CLEAN=$(GO_CMD) clean
 GO_FMT=$(GO_CMD) fmt
-GO_WASM=GOOS=js GOARCH=wasm $(GO_BUILD) -o assets/main.wasm
+GO_WASM=GOOS=js GOARCH=wasm $(GO_BUILD) -o assets/main.wasm  cmd/constructor.go
 
 # Project parameters
 MAIN_SRC=cmd/main.go

@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/joaorufino/cv-game/internal/interfaces"
-	"github.com/joaorufino/cv-game/internal/utils"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/utils"
 )
 
 // ItemManagerImpl is a concrete implementation of the ItemManager interface.

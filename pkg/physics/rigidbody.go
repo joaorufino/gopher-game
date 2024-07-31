@@ -1,7 +1,7 @@
 package physics
 
 import (
-	"github.com/joaorufino/cv-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
 )
 
 const GRAVITY = 9.8
@@ -9,11 +9,11 @@ const GRAVITY = 9.8
 // RigidBody represents the physical properties of an entity.
 type RigidBody struct {
 	Identifier      string
-	Position        interfaces.Point `json:"position"`
-	Velocity        interfaces.Point `json:"velocity"`
-	Acceleration    interfaces.Point `json:"acceleration"`
-	Mass            float64          `json:"mass"`
-	Size            interfaces.Point `json:"size"`
+	Position        interfaces.Vector2D `json:"position"`
+	Velocity        interfaces.Vector2D `json:"velocity"`
+	Acceleration    interfaces.Vector2D `json:"acceleration"`
+	Mass            float64             `json:"mass"`
+	Size            interfaces.Vector2D `json:"size"`
 	IsStatic        bool
 	OnGround        bool
 	IsCollidable    bool
@@ -24,7 +24,7 @@ type RigidBody struct {
 }
 
 // NewRigidBody creates a new RigidBody.
-func NewRigidBody(position, size interfaces.Point, mass float64, isStatic bool, identifier string) *RigidBody {
+func NewRigidBody(position, size interfaces.Vector2D, mass float64, isStatic bool, identifier string) *RigidBody {
 	return &RigidBody{
 		Identifier:      identifier,
 		Position:        position,
@@ -82,7 +82,7 @@ func (rb *RigidBody) SetPushable(b bool) {
 }
 
 // ApplyForce applies a force to the rigid body.
-func (rb *RigidBody) ApplyForce(force interfaces.Point) {
+func (rb *RigidBody) ApplyForce(force interfaces.Vector2D) {
 	if rb.IsStatic {
 		return
 	}
@@ -107,32 +107,32 @@ func (rb *RigidBody) Update(deltaTime float64) {
 }
 
 // GetPosition returns the current position of the rigid body.
-func (rb *RigidBody) GetPosition() interfaces.Point {
+func (rb *RigidBody) GetPosition() interfaces.Vector2D {
 	return rb.Position
 }
 
 // SetPosition sets the position of the rigid body.
-func (rb *RigidBody) SetPosition(position interfaces.Point) {
+func (rb *RigidBody) SetPosition(position interfaces.Vector2D) {
 	rb.Position = position
 }
 
 // GetVelocity returns the current velocity of the rigid body.
-func (rb *RigidBody) GetVelocity() interfaces.Point {
+func (rb *RigidBody) GetVelocity() interfaces.Vector2D {
 	return rb.Velocity
 }
 
 // SetVelocity sets the velocity of the rigid body.
-func (rb *RigidBody) SetVelocity(velocity interfaces.Point) {
+func (rb *RigidBody) SetVelocity(velocity interfaces.Vector2D) {
 	rb.Velocity = velocity
 }
 
 // GetSize returns the size of the rigid body.
-func (rb *RigidBody) GetSize() interfaces.Point {
+func (rb *RigidBody) GetSize() interfaces.Vector2D {
 	return rb.Size
 }
 
 // SetSize sets the size of the rigid body.
-func (rb *RigidBody) SetSize(size interfaces.Point) {
+func (rb *RigidBody) SetSize(size interfaces.Vector2D) {
 	rb.Size = size
 }
 

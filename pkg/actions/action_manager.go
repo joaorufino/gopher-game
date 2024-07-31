@@ -1,6 +1,6 @@
 package actions
 
-import "github.com/joaorufino/cv-game/internal/interfaces"
+import "github.com/joaorufino/gopher-game/internal/interfaces"
 
 // ActionManager manages all available actions.
 type ActionManager struct {

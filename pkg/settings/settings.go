@@ -7,7 +7,7 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/joaorufino/cv-game/internal/utils"
+	"github.com/joaorufino/gopher-game/internal/utils"
 )
 
 // SettingsImpl represents the game settings.

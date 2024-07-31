@@ -1,17 +1,17 @@
 package physics
 
 import (
-	"github.com/joaorufino/cv-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
 )
 
 type PhysicsEngine struct {
 	RigidBodies  []interfaces.RigidBody
-	gravity      interfaces.Point
+	gravity      interfaces.Vector2D
 	floorY       float64
 	eventManager interfaces.EventManager
 }
 
-func NewPhysicsEngine(eventManager interfaces.EventManager, gravity interfaces.Point, floorY float64) *PhysicsEngine {
+func NewPhysicsEngine(eventManager interfaces.EventManager, gravity interfaces.Vector2D, floorY float64) *PhysicsEngine {
 	return &PhysicsEngine{
 		RigidBodies:  make([]interfaces.RigidBody, 0),
 		gravity:      gravity,
@@ -56,7 +56,7 @@ func (pe *PhysicsEngine) Update(deltaTime float64) {
 	for _, rb := range pe.RigidBodies {
 		if !rb.(*RigidBody).IsStatic {
 			// Apply gravity
-			rb.(*RigidBody).ApplyForce(interfaces.Point{
+			rb.(*RigidBody).ApplyForce(interfaces.Vector2D{
 				X: 0,
 				Y: pe.gravity.Y * rb.(*RigidBody).Mass,
 			})
@@ -69,7 +69,7 @@ func (pe *PhysicsEngine) Update(deltaTime float64) {
 			rb.Update(deltaTime)
 
 			// Reset acceleration
-			rb.(*RigidBody).Acceleration = interfaces.Point{X: 0, Y: 0}
+			rb.(*RigidBody).Acceleration = interfaces.Vector2D{X: 0, Y: 0}
 		}
 	}
 

@@ -1,17 +1,17 @@
 package gameMap
 
 import (
-	"encoding/json"
 	"fmt"
 	"image/color"
 	"log"
+	"math/rand"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/vector"
-	"github.com/joaorufino/cv-game/internal/interfaces"
-	"github.com/joaorufino/cv-game/internal/utils"
-	"github.com/joaorufino/cv-game/pkg/physics"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/pkg/physics"
 )
 
 // Movement defines the movement properties for an obstacle.
@@ -39,28 +39,89 @@ type Platform struct {
 type ItemOnMap struct {
 	Name      string             `json:"name"`
 	RigidBody *physics.RigidBody `json:"body"`
-	Item      interfaces.Item    `json:-`
+	Item      interfaces.Item    `json:"-"`
+}
+
+// PlatformGeneratorConfig holds configuration for generating platforms.
+type PlatformGeneratorConfig struct {
+	MinPlatformDistance float64
+	MaxPlatformDistance float64
+	PlatformWidth       float64
+	PlatformHeight      float64
+	ScreenWidth         float64
+	ScreenHeight        float64
+}
+
+// PlatformGenerator generates platforms dynamically.
+type PlatformGenerator struct {
+	config        PlatformGeneratorConfig
+	platforms     []Platform
+	lastPlatformY float64
+	physicsEngine interfaces.PhysicsEngine
+}
+
+func NewPlatformGenerator(config PlatformGeneratorConfig, physicsEngine interfaces.PhysicsEngine) *PlatformGenerator {
+	rand.Seed(time.Now().UnixNano())
+	return &PlatformGenerator{
+		config:        config,
+		platforms:     []Platform{},
+		lastPlatformY: config.ScreenHeight,
+		physicsEngine: physicsEngine,
+	}
+}
+
+func (pg *PlatformGenerator) GenerateInitialPlatforms() {
+	for y := pg.config.ScreenHeight; y > 0; y -= pg.randomDistance() {
+		pg.addPlatform(y)
+	}
+}
+
+func (pg *PlatformGenerator) Update(deltaTime float64) {
+	// Generate new platforms as the player moves up
+	for !(pg.lastPlatformY > 0) {
+		pg.addPlatform(pg.lastPlatformY)
+	}
+}
+
+func (pg *PlatformGenerator) addPlatform(y float64) {
+	x := rand.Float64() * (pg.config.ScreenWidth + pg.config.PlatformWidth)
+	platform := Platform{
+		RigidBody: physics.NewRigidBody(interfaces.Vector2D{X: x, Y: y}, interfaces.Vector2D{X: pg.config.PlatformWidth, Y: pg.config.PlatformHeight}, 1, true, "platform"),
+	}
+	pg.platforms = append(pg.platforms, platform)
+	pg.lastPlatformY += pg.randomDistance()
+	pg.physicsEngine.AddRigidBody(platform.RigidBody)
+}
+
+func (pg *PlatformGenerator) randomDistance() float64 {
+	return pg.config.MinPlatformDistance + rand.Float64()*(pg.config.MaxPlatformDistance-pg.config.MinPlatformDistance)
+}
+
+func (pg *PlatformGenerator) GetPlatforms() []Platform {
+	return pg.platforms
 }
 
 // Map represents the game map with platforms, obstacles, and items.
 type Map struct {
-	eventManager    interfaces.EventManager
-	resourceManager interfaces.ResourceManager
-	Platforms       []Platform  `json:"platforms"`
-	Obstacles       []Obstacle  `json:"obstacles"`
-	Items           []ItemOnMap `json:"items"`
-	Background      string      `json:"background"`
-	BgImage         *ebiten.Image
+	eventManager      interfaces.EventManager
+	resourceManager   interfaces.ResourceManager
+	platformGenerator *PlatformGenerator
+	Obstacles         []Obstacle  `json:"obstacles"`
+	Items             []ItemOnMap `json:"items"`
+	Background        string      `json:"background"`
+	BgImage           *ebiten.Image
 }
 
 // NewMap creates a new map instance.
-func NewMap(filepath string, eventManager interfaces.EventManager, resourceManager interfaces.ResourceManager, physicsEngine interfaces.PhysicsEngine) (interfaces.Map, error) {
+func NewMap(eventManager interfaces.EventManager, resourceManager interfaces.ResourceManager, physicsEngine interfaces.PhysicsEngine, platformGenerator *PlatformGenerator) *Map {
 	newMap := &Map{
-		resourceManager: resourceManager,
-		eventManager:    eventManager,
+		resourceManager:   resourceManager,
+		eventManager:      eventManager,
+		platformGenerator: platformGenerator,
 	}
 	newMap.eventManager.RegisterHandler(interfaces.EventItemEquipped, newMap.handleItemPicked)
-	return newMap, newMap.LoadMap(filepath, physicsEngine)
+	platformGenerator.GenerateInitialPlatforms()
+	return newMap
 }
 
 func (m *Map) handleItemPicked(event interfaces.Event) {
@@ -87,58 +148,18 @@ func (m *Map) removeItem(itemName string) {
 	}
 }
 
-// LoadMap loads the map from a JSON file.
-func (m *Map) LoadMap(filepath string, physicsEngine interfaces.PhysicsEngine) error {
-	err := utils.LoadData(filepath, func(data []byte) error {
-		err := json.Unmarshal(data, &m)
-		if err != nil {
-			return fmt.Errorf("failed to unmarshal map JSON: %w", err)
-		}
-		return nil
-	})
-	if err != nil {
-		return err
-	}
-
-	bgImage, _, err := ebitenutil.NewImageFromFile(m.Background)
+// LoadBackground loads the background image.
+func (m *Map) LoadBackground(imagePath string) error {
+	bgImage, _, err := ebitenutil.NewImageFromFile(imagePath)
 	if err != nil {
 		return fmt.Errorf("failed to load background image: %w", err)
 	}
 	m.BgImage = bgImage
-
-	// Initialize platforms with rigid bodies
-	for i := range m.Platforms {
-		platform := &m.Platforms[i]
-		platform.RigidBody = physics.NewRigidBody(platform.RigidBody.Position, platform.RigidBody.Size, 1, true, fmt.Sprintf("platform%d", i))
-		physicsEngine.AddRigidBody(platform.RigidBody)
-	}
-
-	// Initialize obstacles with rigid bodies and initial positions
-	for i := range m.Obstacles {
-		obstacle := &m.Obstacles[i]
-		obstacle.RigidBody = physics.NewRigidBody(obstacle.RigidBody.Position, obstacle.RigidBody.Size, 1, true, fmt.Sprintf("obstacle%d", i))
-		obstacle.Movement.InitialPosX = obstacle.RigidBody.Position.X
-		obstacle.Movement.InitialPosY = obstacle.RigidBody.Position.Y
-		physicsEngine.AddRigidBody(obstacle.RigidBody)
-	}
-
-	// Initialize items with rigid bodies
-	for i, itemData := range m.Items {
-		item, err := m.resourceManager.GetItem(itemData.Name)
-		if err != nil {
-			return fmt.Errorf("failed to get item: %w", err)
-		}
-		m.Items[i].Item = item
-		m.Items[i].RigidBody = physics.NewRigidBody(itemData.RigidBody.Position, itemData.RigidBody.Size, 1, true, itemData.Name)
-		m.Items[i].RigidBody.SetPickable(true)
-		physicsEngine.AddRigidBody(m.Items[i].RigidBody)
-	}
-
-	log.Println("Map loaded successfully")
 	return nil
 }
 
 func (m *Map) Update(deltaTime float64) {
+	m.platformGenerator.Update(deltaTime)
 	for i := range m.Obstacles {
 		obstacle := &m.Obstacles[i]
 		switch obstacle.Movement.Type {
@@ -157,8 +178,6 @@ func (m *Map) Update(deltaTime float64) {
 }
 
 func (m *Map) Draw(screen *ebiten.Image, camera interfaces.Camera) {
-	log.Println("Drawing map...")
-
 	// Get the offset from the camera
 	offsetX, offsetY := camera.GetOffset()
 
@@ -167,12 +186,10 @@ func (m *Map) Draw(screen *ebiten.Image, camera interfaces.Camera) {
 		bgOpts := &ebiten.DrawImageOptions{}
 		bgOpts.GeoM.Translate(-offsetX, -offsetY)
 		screen.DrawImage(m.BgImage, bgOpts)
-	} else {
-		log.Println("Background image is nil") // Debug log
 	}
 
 	// Draw platforms
-	for _, platform := range m.Platforms {
+	for _, platform := range m.platformGenerator.GetPlatforms() {
 		vector.DrawFilledRect(screen,
 			float32(platform.RigidBody.Position.X-offsetX),
 			float32(platform.RigidBody.Position.Y-offsetY),
@@ -214,25 +231,21 @@ func (m *Map) Draw(screen *ebiten.Image, camera interfaces.Camera) {
 	}
 }
 
-func (m *Map) SetBackground(imagePath string) {
-	m.Background = imagePath
-}
-
 // GetPlatforms returns the platforms from the map as a slice of interface{}.
 func (m *Map) GetPlatforms() []interface{} {
-	platforms := make([]interface{}, len(m.Platforms))
-	for i, platform := range m.Platforms {
+	platforms := make([]interface{}, len(m.platformGenerator.GetPlatforms()))
+	for i, platform := range m.platformGenerator.GetPlatforms() {
 		platforms[i] = platform
 	}
 	return platforms
 }
 
-// SetObstacles sets the obstacles in the map.
-func (m *Map) SetObstacles(obstacles []interface{}) {
-	m.Obstacles = make([]Obstacle, len(obstacles))
-	for i, obstacle := range obstacles {
-		if obs, ok := obstacle.(Obstacle); ok {
-			m.Obstacles[i] = obs
+// SetPlatforms sets the platforms in the map.
+func (m *Map) SetPlatforms(platforms []interface{}) {
+	m.platformGenerator.platforms = make([]Platform, len(platforms))
+	for i, platform := range platforms {
+		if pla, ok := platform.(Platform); ok {
+			m.platformGenerator.platforms[i] = pla
 		}
 	}
 }
@@ -246,12 +259,12 @@ func (m *Map) GetObstacles() []interface{} {
 	return obstacles
 }
 
-// SetPlatforms sets the obstacles in the map.
-func (m *Map) SetPlatforms(platforms []interface{}) {
-	m.Platforms = make([]Platform, len(platforms))
-	for i, platform := range platforms {
-		if pla, ok := platform.(Platform); ok {
-			m.Platforms[i] = pla
+// SetObstacles sets the obstacles in the map.
+func (m *Map) SetObstacles(obstacles []interface{}) {
+	m.Obstacles = make([]Obstacle, len(obstacles))
+	for i, obstacle := range obstacles {
+		if obs, ok := obstacle.(Obstacle); ok {
+			m.Obstacles[i] = obs
 		}
 	}
 }

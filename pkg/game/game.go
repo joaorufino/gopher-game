@@ -7,12 +7,13 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"github.com/joaorufino/cv-game/internal/interfaces"
-	"github.com/joaorufino/cv-game/pkg/abilities"
-	"github.com/joaorufino/cv-game/pkg/achievements"
-	"github.com/joaorufino/cv-game/pkg/actions"
-	"github.com/joaorufino/cv-game/pkg/chapterintro"
-	"github.com/joaorufino/cv-game/pkg/pet"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/pkg/abilities"
+	"github.com/joaorufino/gopher-game/pkg/achievements"
+	"github.com/joaorufino/gopher-game/pkg/actions"
+	"github.com/joaorufino/gopher-game/pkg/chapterintro"
+	"github.com/joaorufino/gopher-game/pkg/gameMap"
+	"github.com/joaorufino/gopher-game/pkg/pet"
 	"github.com/sirupsen/logrus"
 	"go.uber.org/fx"
 )
@@ -92,7 +93,21 @@ func NewGame(params Params) *Game {
 	if err != nil {
 		log.Fatalf("Failed to load abilities: %v", err)
 	}
-	chapterIntro := chapterintro.NewChapterIntro("Your Star Wars-style text here...", interfaces.Point{X: 100, Y: 400}, params.PhysicsEngine)
+	chapterIntro := chapterintro.NewChapterIntro("Your Star Wars-style text here...", interfaces.Vector2D{X: 100, Y: 400}, params.PhysicsEngine)
+
+	// Configure the PlatformGenerator
+	platformGenConfig := gameMap.PlatformGeneratorConfig{
+		MinPlatformDistance: 50,
+		MaxPlatformDistance: 150,
+		PlatformWidth:       100,
+		PlatformHeight:      20,
+		ScreenWidth:         float64(params.ScreenWidth),
+		ScreenHeight:        float64(params.ScreenHeight),
+	}
+	platformGenerator := gameMap.NewPlatformGenerator(platformGenConfig, params.PhysicsEngine)
+
+	// Initialize the game map with the PlatformGenerator
+	gameMapInstance := gameMap.NewMap(params.EventManager, params.ResourceManager, params.PhysicsEngine, platformGenerator)
 
 	game := &Game{
 		Player:             player,
@@ -100,7 +115,7 @@ func NewGame(params Params) *Game {
 		Background:         params.Background,
 		ScreenWidth:        params.ScreenWidth,
 		ScreenHeight:       params.ScreenHeight,
-		GameMap:            params.GameMap,
+		GameMap:            gameMapInstance,
 		Settings:           params.Settings,
 		ResourceManager:    params.ResourceManager,
 		ItemManager:        params.ItemManager,
@@ -117,6 +132,7 @@ func NewGame(params Params) *Game {
 
 	return game
 }
+
 func loadBackgroundImage(path string) (*ebiten.Image, error) {
 	bg, _, err := ebitenutil.NewImageFromFile(path)
 	if err != nil {

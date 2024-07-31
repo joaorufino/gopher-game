@@ -58,7 +58,7 @@ type ButtonResources interface {
 
 // Button represents a button resource.
 type Button interface {
-	Draw(screen *ebiten.Image, position Point) error
+	Draw(screen *ebiten.Image, position Vector2D) error
 	GetTextPadding() widget.Insets
 	GetImage() *widget.ButtonImage
 }

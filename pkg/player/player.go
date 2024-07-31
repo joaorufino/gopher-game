@@ -6,16 +6,16 @@ import (
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/joaorufino/cv-game/internal/interfaces"
-	"github.com/joaorufino/cv-game/pkg/animation"
-	"github.com/joaorufino/cv-game/pkg/particle"
-	"github.com/joaorufino/cv-game/pkg/physics"
+	"github.com/joaorufino/gopher-game/internal/interfaces"
+	"github.com/joaorufino/gopher-game/pkg/animation"
+	"github.com/joaorufino/gopher-game/pkg/particle"
+	"github.com/joaorufino/gopher-game/pkg/physics"
 )
 
 // Player represents the player character.
 type Player struct {
-	Position            interfaces.Point
-	velocity            interfaces.Point
+	Position            interfaces.Vector2D
+	velocity            interfaces.Vector2D
 	animations          map[string]*animation.Animation
 	currentAnimation    string
 	lastAnimationUpdate time.Time
@@ -29,6 +29,7 @@ type Player struct {
 	RigidBody           *physics.RigidBody
 	EventManager        interfaces.EventManager
 	rotation            float64
+	gameWidth           float64 // Add gameWidth to constrain movement
 }
 
 // Configuration holds the configurable settings for the Player.
@@ -42,7 +43,7 @@ type Configuration struct {
 }
 
 // NewPlayer initializes a new player instance.
-func NewPlayer(startX, startY float64, resourceManager interfaces.ResourceManager, config *Configuration, physicsEngine interfaces.PhysicsEngine, event interfaces.EventManager) *Player {
+func NewPlayer(startX, startY float64, resourceManager interfaces.ResourceManager, config *Configuration, physicsEngine interfaces.PhysicsEngine, event interfaces.EventManager, gameWidth float64) *Player {
 	frameCounts := map[string]int{
 		"idle": 1,
 		"run":  1,
@@ -54,8 +55,8 @@ func NewPlayer(startX, startY float64, resourceManager interfaces.ResourceManage
 	size.X = size.X * config.ImageScale
 	size.Y = size.Y * config.ImageScale
 	player := &Player{
-		Position:            interfaces.Point{X: startX, Y: startY},
-		velocity:            interfaces.Point{X: 0, Y: 0},
+		Position:            interfaces.Vector2D{X: startX, Y: startY},
+		velocity:            interfaces.Vector2D{X: 0, Y: 0},
 		animations:          pAnimations,
 		currentAnimation:    "idle",
 		lastAnimationUpdate: time.Now(),
@@ -66,8 +67,9 @@ func NewPlayer(startX, startY float64, resourceManager interfaces.ResourceManage
 		resourceManager:     resourceManager,
 		config:              config,
 		canFly:              false, // Initialize without the cloud item
-		RigidBody:           physics.NewRigidBody(interfaces.Point{X: startX, Y: startY}, size, 1000, false, "player"),
+		RigidBody:           physics.NewRigidBody(interfaces.Vector2D{X: startX, Y: startY}, size, 1000, false, "player"),
 		EventManager:        event,
+		gameWidth:           gameWidth, // Set gameWidth
 	}
 	player.RigidBody.SetCanPick(true)
 	// Add the player's rigid body to the physics engine
@@ -95,6 +97,13 @@ func (p *Player) Update(deltaTime float64) error {
 func (p *Player) updatePosition(deltaTime float64) {
 	// Update the rigid body position
 	p.RigidBody.Update(deltaTime)
+
+	// Constrain player within game boundaries
+	if p.RigidBody.Position.X < 0 {
+		p.RigidBody.Position.X = 0
+	} else if p.RigidBody.Position.X > p.gameWidth-p.RigidBody.Size.X {
+		p.RigidBody.Position.X = p.gameWidth - p.RigidBody.Size.X
+	}
 }
 
 // Draw renders the player and particle system on the screen.
@@ -161,11 +170,11 @@ func (p *Player) EquipItem(item interfaces.Item) {
 	}
 }
 
-func (p *Player) GetPosition() interfaces.Point {
+func (p *Player) GetPosition() interfaces.Vector2D {
 	return p.RigidBody.GetPosition()
 }
 
-func (p *Player) SetPosition(po interfaces.Point) {
+func (p *Player) SetPosition(po interfaces.Vector2D) {
 	p.Position = po
 }
 
@@ -219,7 +228,7 @@ func (p *Player) handleJump() {
 		p.currentAnimation = "jump"
 		p.RigidBody.Velocity.Y = -p.config.JumpVelocity
 		p.RigidBody.OnGround = false
-		p.particleSystem.AddParticle(p.Position, interfaces.Point{X: 0, Y: -100}, 1.0, 5, color.RGBA{255, 255, 255, 255})
+		p.particleSystem.AddParticle(p.Position, interfaces.Vector2D{X: 0, Y: -100}, 1.0, 5, color.RGBA{255, 255, 255, 255})
 		p.rotation = 0
 	}
 }
