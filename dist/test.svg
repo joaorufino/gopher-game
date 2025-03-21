@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 150">
+  <!-- Background -->
+  <rect width="600" height="150" fill="#f8f8f8" rx="5" ry="5"/>
+  
+  <!-- Sprite Sections -->
+  <text x="60" y="18" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Standing</text>
+  <text x="180" y="18" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Running</text>
+  <text x="300" y="18" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Kicking</text>
+  <text x="420" y="18" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Sliding</text>
+  <text x="540" y="18" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Celebrating</text>
+  
+  <!-- Standing Gopher -->
+  <g transform="translate(60, 85)">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="18" ry="20" fill="#5DC9E2"/>
+    <ellipse cx="0" cy="-2" rx="14" ry="16" fill="#7FDFF8"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="-7" cy="-12" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <ellipse cx="7" cy="-12" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <circle cx="-5" cy="-12" r="3" fill="#333333"/>
+    <circle cx="9" cy="-12" r="3" fill="#333333"/>
+    
+    <!-- Mouth -->
+    <path d="M0,-2 Q0,2 0,4" stroke="#333333" stroke-width="1" fill="none"/>
+
+    <!-- Ears -->
+    <ellipse cx="-14" cy="-16" rx="5" ry="7" fill="#5DC9E2" transform="rotate(-15)"/>
+    <ellipse cx="14" cy="-16" rx="5" ry="7" fill="#5DC9E2" transform="rotate(15)"/>
+    
+    <!-- Arms -->
+    <path d="M-16,0 Q-20,5 -18,10" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M16,0 Q20,5 18,10" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    
+    <!-- Legs -->
+    <path d="M-8,18 L-8,24" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M8,18 L8,24" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Soccer Jersey -->
+    <path d="M-14,0 Q0,10 14,0" stroke="#FF2233" stroke-width="2" fill="none"/>
+    <path d="M-10,5 L10,5" stroke="#FF2233" stroke-width="2"/>
+    
+    <!-- Soccer Ball -->
+    <circle cx="18" cy="15" r="6" fill="#FFFFFF" stroke="#000000" stroke-width="0.5"/>
+    <path d="M18,9 L18,21 M12,15 L24,15" stroke="#000000" stroke-width="0.5"/>
+    <path d="M14,11 L22,19 M22,11 L14,19" stroke="#000000" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Running Gopher -->
+  <g transform="translate(180, 85)">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="18" ry="20" fill="#5DC9E2" transform="rotate(10)"/>
+    <ellipse cx="0" cy="-2" rx="14" ry="16" fill="#7FDFF8" transform="rotate(10)"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="-7" cy="-12" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <ellipse cx="7" cy="-12" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <circle cx="-5" cy="-12" r="3" fill="#333333"/>
+    <circle cx="9" cy="-12" r="3" fill="#333333"/>
+    
+    <!-- Mouth -->
+    <path d="M-2,-2 Q0,4 2,2" stroke="#333333" stroke-width="1" fill="none"/>
+
+    <!-- Ears -->
+    <ellipse cx="-14" cy="-16" rx="5" ry="7" fill="#5DC9E2" transform="rotate(-20)"/>
+    <ellipse cx="14" cy="-16" rx="5" ry="7" fill="#5DC9E2" transform="rotate(20)"/>
+    
+    <!-- Arms -->
+    <path d="M-16,0 Q-20,-5 -22,-2" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M16,0 Q22,5 24,0" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    
+    <!-- Legs -->
+    <path d="M-8,18 L-15,20" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M8,18 L15,14" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Soccer Jersey -->
+    <path d="M-14,0 Q0,10 14,0" stroke="#FF2233" stroke-width="2" fill="none" transform="rotate(10)"/>
+    <path d="M-10,5 L10,5" stroke="#FF2233" stroke-width="2" transform="rotate(10)"/>
+    
+    <!-- Motion Lines -->
+    <path d="M-28,0 L-36,0 M-27,5 L-35,5 M-26,-5 L-34,-5" stroke="#888888" stroke-width="1.5" stroke-dasharray="2,2"/>
+  </g>
+  
+  <!-- Kicking Gopher -->
+  <g transform="translate(300, 85)">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="18" ry="20" fill="#5DC9E2" transform="rotate(-8)"/>
+    <ellipse cx="0" cy="-2" rx="14" ry="16" fill="#7FDFF8" transform="rotate(-8)"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="-7" cy="-12" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <ellipse cx="7" cy="-12" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <circle cx="-5" cy="-12" r="3" fill="#333333"/>
+    <circle cx="9" cy="-12" r="3" fill="#333333"/>
+    
+    <!-- Mouth -->
+    <path d="M-4,-2 Q0,2 4,-2" stroke="#333333" stroke-width="1" fill="none"/>
+
+    <!-- Ears -->
+    <ellipse cx="-14" cy="-16" rx="5" ry="7" fill="#5DC9E2" transform="rotate(-10)"/>
+    <ellipse cx="14" cy="-16" rx="5" ry="7" fill="#5DC9E2" transform="rotate(10)"/>
+    
+    <!-- Arms -->
+    <path d="M-16,0 Q-22,0 -24,5" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M16,0 Q20,-5 24,-8" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    
+    <!-- Legs -->
+    <path d="M-8,18 L-12,22" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M8,18 L26,12" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Soccer Jersey -->
+    <path d="M-14,0 Q0,10 14,0" stroke="#FF2233" stroke-width="2" fill="none" transform="rotate(-8)"/>
+    <path d="M-10,5 L10,5" stroke="#FF2233" stroke-width="2" transform="rotate(-8)"/>
+    
+    <!-- Soccer Ball -->
+    <circle cx="36" cy="10" r="6" fill="#FFFFFF" stroke="#000000" stroke-width="0.5"/>
+    <path d="M36,4 L36,16 M30,10 L42,10" stroke="#000000" stroke-width="0.5"/>
+    <path d="M32,6 L40,14 M40,6 L32,14" stroke="#000000" stroke-width="0.5"/>
+    
+    <!-- Motion Lines -->
+    <path d="M32,10 L50,8" stroke="#888888" stroke-width="1.5" stroke-dasharray="2,2"/>
+  </g>
+  
+  <!-- Sliding Gopher -->
+  <g transform="translate(420, 85)">
+    <!-- Body -->
+    <ellipse cx="0" cy="5" rx="20" ry="10" fill="#5DC9E2" transform="rotate(10)"/>
+    <ellipse cx="0" cy="3" rx="16" ry="8" fill="#7FDFF8" transform="rotate(10)"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="-10" cy="0" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <ellipse cx="6" cy="0" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <circle cx="-10" cy="2" r="3" fill="#333333"/>
+    <circle cx="6" cy="2" r="3" fill="#333333"/>
+    
+    <!-- Mouth -->
+    <path d="M-8,7 Q-2,10 4,7" stroke="#333333" stroke-width="1" fill="none"/>
+
+    <!-- Ears -->
+    <ellipse cx="-18" cy="-5" rx="5" ry="7" fill="#5DC9E2" transform="rotate(-30)"/>
+    <ellipse cx="12" cy="-5" rx="5" ry="7" fill="#5DC9E2" transform="rotate(30)"/>
+    
+    <!-- Arms -->
+    <path d="M-15,5 Q-20,0 -25,-5" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M15,5 Q25,8 30,5" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    
+    <!-- Legs -->
+    <path d="M-8,10 L-25,15" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M8,10 L25,10" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Soccer Jersey -->
+    <path d="M-14,5 Q0,12 14,5" stroke="#FF2233" stroke-width="2" fill="none" transform="rotate(10)"/>
+    <path d="M-10,8 L10,8" stroke="#FF2233" stroke-width="2" transform="rotate(10)"/>
+    
+    <!-- Dust cloud -->
+    <path d="M-35,12 Q-30,17 -25,12 Q-22,7 -25,2 Q-20,-3 -25,-8 Q-30,-13 -35,-8" stroke="#bbbbbb" fill="#dddddd" opacity="0.7"/>
+  </g>
+  
+  <!-- Celebrating Gopher -->
+  <g transform="translate(540, 85)">
+    <!-- Body -->
+    <ellipse cx="0" cy="5" rx="18" ry="20" fill="#5DC9E2"/>
+    <ellipse cx="0" cy="3" rx="14" ry="16" fill="#7FDFF8"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="-7" cy="-7" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <ellipse cx="7" cy="-7" rx="7" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="0.5"/>
+    <circle cx="-5" cy="-7" r="3" fill="#333333"/>
+    <circle cx="9" cy="-7" r="3" fill="#333333"/>
+    
+    <!-- Smile -->
+    <path d="M-6,3 Q0,10 6,3" stroke="#333333" stroke-width="1.5" fill="none"/>
+
+    <!-- Ears -->
+    <ellipse cx="-14" cy="-14" rx="5" ry="9" fill="#5DC9E2" transform="rotate(-5)"/>
+    <ellipse cx="14" cy="-14" rx="5" ry="9" fill="#5DC9E2" transform="rotate(5)"/>
+    
+    <!-- Arms -->
+    <path d="M-16,0 Q-20,-10 -16,-20" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M16,0 Q20,-10 16,-20" stroke="#5DC9E2" stroke-width="5" stroke-linecap="round" fill="none"/>
+    
+    <!-- Legs -->
+    <path d="M-8,23 L-10,28" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M8,23 L10,28" stroke="#5DC9E2" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Soccer Jersey -->
+    <path d="M-14,5 Q0,15 14,5" stroke="#FF2233" stroke-width="2" fill="none"/>
+    <path d="M-10,10 L10,10" stroke="#FF2233" stroke-width="2"/>
+    
+    <!-- Trophy -->
+    <rect x="-5" y="-35" width="10" height="5" fill="#FFD700"/>
+    <path d="M-3,-35 L-3,-30 L3,-30 L3,-35" fill="none" stroke="#FFD700" stroke-width="3"/>
+    <rect x="-7" y="-37" width="14" height="2" fill="#FFD700"/>
+    
+    <!-- Celebration stars -->
+    <path d="M-20,-30 L-17,-20 L-25,-25 L-15,-25 L-23,-20 Z" fill="#ffff00"/>
+    <path d="M20,-30 L23,-20 L15,-25 L25,-25 L17,-20 Z" fill="#ffff00"/>
+    <path d="M0,-45 L3,-35 L-5,-40 L5,-40 L-3,-35 Z" fill="#ffff00"/>
+  </g>
+</svg>

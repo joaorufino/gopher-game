@@ -13,7 +13,10 @@ import (
 	"github.com/joaorufino/gopher-game/pkg/actions"
 	"github.com/joaorufino/gopher-game/pkg/chapterintro"
 	"github.com/joaorufino/gopher-game/pkg/gameMap"
+	"github.com/joaorufino/gopher-game/pkg/hud"
 	"github.com/joaorufino/gopher-game/pkg/pet"
+	"github.com/joaorufino/gopher-game/pkg/physics"
+	"github.com/joaorufino/gopher-game/pkg/score"
 	"github.com/sirupsen/logrus"
 	"go.uber.org/fx"
 )
@@ -54,6 +57,9 @@ type Game struct {
 	AbilitiesManager   interfaces.AbilitiesManager
 	AchievementManager interfaces.AchievementManager
 	chapterIntro       *chapterintro.ChapterIntro
+	ScoreManager       *score.ScoreManager
+	HUD                *hud.HUD
+	matchTimer         float64 // Timer for soccer match in seconds
 }
 
 // NewGame creates a new Game instance using dependency injection.
@@ -93,21 +99,31 @@ func NewGame(params Params) *Game {
 	if err != nil {
 		log.Fatalf("Failed to load abilities: %v", err)
 	}
-	chapterIntro := chapterintro.NewChapterIntro("Your Star Wars-style text here...", interfaces.Vector2D{X: 100, Y: 400}, params.PhysicsEngine)
+	chapterIntro := chapterintro.NewChapterIntro("Soccer Match - Score Goals to Win!", interfaces.Vector2D{X: 100, Y: 400}, params.PhysicsEngine)
 
-	// Configure the PlatformGenerator
+	// Configure the PlatformGenerator (now used for soccer players)
 	platformGenConfig := gameMap.PlatformGeneratorConfig{
-		MinPlatformDistance: 50,
+		MinPlatformDistance: 100,
 		MaxPlatformDistance: 150,
-		PlatformWidth:       100,
-		PlatformHeight:      20,
+		PlatformWidth:       30, // Smaller for player representations
+		PlatformHeight:      30, // Square for player representations
 		ScreenWidth:         float64(params.ScreenWidth),
 		ScreenHeight:        float64(params.ScreenHeight),
 	}
 	platformGenerator := gameMap.NewPlatformGenerator(platformGenConfig, params.PhysicsEngine)
 
-	// Initialize the game map with the PlatformGenerator
+	// Initialize the game map (soccer field) with the PlatformGenerator
 	gameMapInstance := gameMap.NewMap(params.EventManager, params.ResourceManager, params.PhysicsEngine, platformGenerator)
+
+	// Create score manager for soccer game
+	scoreManager := score.NewScoreManager()
+	scoreManager.SetTeamName(0, "Blue Team")
+	scoreManager.SetTeamName(1, "Red Team")
+	scoreManager.StartMatch(90) // 90 second match
+
+	// Create HUD to display scores
+	// Note: This part assumes we have font loading - if not, this can be adjusted
+	hud := hud.NewHUD(scoreManager, nil, params.ScreenWidth, params.ScreenHeight)
 
 	game := &Game{
 		Player:             player,
@@ -126,6 +142,8 @@ func NewGame(params Params) *Game {
 		AbilitiesManager:   abilitiesManager,
 		AchievementManager: achievementManager,
 		chapterIntro:       chapterIntro,
+		ScoreManager:       scoreManager,
+		HUD:                hud,
 	}
 
 	game.registerEventHandlers()
@@ -179,6 +197,48 @@ func (g *Game) Update() error {
 	g.AchievementManager.Update()
 	g.AbilitiesManager.Update(deltaTime)
 
+	// Update match timer and score for soccer game
+	if g.ScoreManager.IsMatchActive() {
+		g.matchTimer += deltaTime
+		// Update every second
+		if g.matchTimer >= 1.0 {
+			g.ScoreManager.UpdateMatchTime(1)
+			g.matchTimer = 0
+		}
+
+		// Check for goal scoring - detect if ball enters goal areas
+		for _, item := range g.GameMap.GetItems() {
+			// Need to cast the RigidBody interface to the concrete type
+			if rb, ok := item.RigidBody.(*physics.RigidBody); ok {
+				// Check if item is in left goal area
+				if rb.Position.X <= 20 &&
+					rb.Position.Y >= 225 &&
+					rb.Position.Y <= 375 {
+					// Score for right team (away/red)
+					g.ScoreManager.AddGoal(1)
+					// Reset ball position
+					rb.Position.X = 400
+					rb.Position.Y = 300
+					rb.Velocity.X = 0
+					rb.Velocity.Y = 0
+				}
+
+				// Check if item is in right goal area
+				if rb.Position.X >= 780 &&
+					rb.Position.Y >= 225 &&
+					rb.Position.Y <= 375 {
+					// Score for left team (home/blue)
+					g.ScoreManager.AddGoal(0)
+					// Reset ball position
+					rb.Position.X = 400
+					rb.Position.Y = 300
+					rb.Velocity.X = 0
+					rb.Velocity.Y = 0
+				}
+			}
+		}
+	}
+
 	return nil
 }
 
@@ -196,6 +256,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	if err := g.Pet.Draw(screen, g.Camera); err != nil {
 		log.Printf("could not draw pet %v", err)
+	}
+
+	// Draw the HUD with score information
+	if g.HUD != nil {
+		g.HUD.Draw(screen)
 	}
 }
 

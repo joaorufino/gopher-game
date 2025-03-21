@@ -78,6 +78,8 @@ func NewPlayer(startX, startY float64, resourceManager interfaces.ResourceManage
 	// Register input handlers for the player
 	player.registerInputHandlers()
 
+	// For soccer game, player represents blue team (no need to set tag as identifier is set in constructor)
+
 	return player
 }
 

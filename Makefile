@@ -4,7 +4,7 @@ GO_BUILD=$(GO_CMD) build
 GO_MOD=$(GO_CMD) mod
 GO_CLEAN=$(GO_CMD) clean
 GO_FMT=$(GO_CMD) fmt
-GO_WASM=GOOS=js GOARCH=wasm $(GO_BUILD) -o assets/main.wasm  cmd/constructor.go
+GO_WASM=GOOS=js GOARCH=wasm $(GO_BUILD) -o assets/main.wasm  cmd/constructor.go cmd/wasm.go
 
 # Project parameters
 MAIN_SRC=cmd/main.go
@@ -25,7 +25,7 @@ wasm:
 	@echo "Building the Go project for WebAssembly..."
 	mkdir -p $(OUTPUT_DIR)
 	cp $(ASSETS_DIR)/wasm_exec.js $(OUTPUT_DIR)
-	$(GO_WASM) $(WASM_SRC)
+	GOOS=js GOARCH=wasm $(GO_BUILD) -o $(ASSETS_DIR)/main.wasm cmd/constructor.go cmd/wasm.go
 
 assets:
 	@echo "Copying assets..."

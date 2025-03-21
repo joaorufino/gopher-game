@@ -11,11 +11,11 @@ func main() {
 		panic(err)
 	}
 
-	fs := http.FileServer(http.Dir("assets"))
+	fs := http.FileServer(http.Dir("dist"))
 	http.Handle("/", noCacheHandler(fs))
 
-	log.Println("Listening on :8080...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println("Listening on :8000...")
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 
 // noCacheHandler wraps an http.Handler to add no-cache headers to the response.
